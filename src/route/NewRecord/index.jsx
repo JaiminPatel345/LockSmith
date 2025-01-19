@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {View, useColorScheme} from 'react-native';
 import {
-    IconButton,
-    TextInput,
-    Text,
-    MD3Colors,
-    Tooltip,
+  IconButton,
+  TextInput,
+  Text,
+  MD3Colors,
+  Tooltip,
 } from 'react-native-paper';
+import ActionButton from '../../components/ActionButton';
 
 const NewRecord = ({navigation}) => {
   const colorScheme = useColorScheme();
@@ -18,7 +19,7 @@ const NewRecord = ({navigation}) => {
     notes: '',
     category: 'Others',
   });
-  const [isPasswordShow , setIsPasswordShow] = useState(false);
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
 
   const icons = [
     {title: 'Password', name: 'key'},
@@ -76,11 +77,17 @@ const NewRecord = ({navigation}) => {
 
           <View className=" flex-row flex-wrap gap-2">
             {icons.map(icon => {
-
               return (
                 <Tooltip title={icon.title} key={icon.title}>
-                  <IconButton icon={icon.name} size={28} mode={formData.category === icon.title ? 'contained' : 'outlined'}
-                  onPress={() => handleChange('category', icon.title)}
+                  <IconButton
+                    icon={icon.name}
+                    size={28}
+                    mode={
+                      formData.category === icon.title
+                        ? 'contained'
+                        : 'outlined'
+                    }
+                    onPress={() => handleChange('category', icon.title)}
                   />
                 </Tooltip>
               );
@@ -114,7 +121,7 @@ const NewRecord = ({navigation}) => {
                 icon={isPasswordShow ? 'eye-off' : 'eye'}
                 color={colors.subText}
                 onPress={() => {
-                    setIsPasswordShow(!isPasswordShow);
+                  setIsPasswordShow(!isPasswordShow);
                 }}
               />
             }
@@ -136,25 +143,14 @@ const NewRecord = ({navigation}) => {
       </View>
 
       {/* Action Buttons */}
-      <View className="absolute bottom-6 right-6 flex-row gap-2">
-        {/*<IconButton*/}
-        {/*  icon="close"*/}
-        {/*  mode="outlined"*/}
-        {/*  size={35}*/}
-        {/*  onPress={() => navigation.goBack()}*/}
-        {/*  containerColor={colors.card}*/}
-        {/*  iconColor={colors.text}*/}
-        {/*  style={{borderColor: colors.border}}*/}
-        {/*/>*/}
-        <IconButton
-          icon="content-save"
-          mode="contained"
-          containerColor={colors.primary}
-          iconColor="#ffffff"
-          size={35}
-          onPress={() => navigation.navigate('Records')}
-        />
-      </View>
+      <ActionButton
+        iconName={'content-save'}
+        mode={'contained'}
+        containerColor={colors.primary}
+        iconColor="#ffffff"
+        size={40}
+        onPress={() => navigation.navigate('Records')}
+      />
     </View>
   );
 };
