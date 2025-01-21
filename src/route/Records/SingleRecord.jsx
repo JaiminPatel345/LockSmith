@@ -20,10 +20,18 @@ const SingleRecord = ({record}) => {
   const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
 
-
-
   // Derive colors from theme
   const styles = getStyles(theme);
+
+  const getIcon = myIcon => {
+    const icons = [
+      {title: 'Password', name: 'key'},
+      {title: 'ID Number', name: 'card-account-details'},
+      {title: 'School', name: 'school'},
+      {title: 'Others', name: 'dots-horizontal'},
+    ];
+    return icons.find(i => i.title === myIcon)?.name || 'dots-horizontal';
+  };
 
   // Function to mask/unmask password
   const formatPassword = value => {
@@ -42,7 +50,7 @@ const SingleRecord = ({record}) => {
         <View style={styles.headerContainer}>
           <Surface style={styles.iconContainer} elevation={2}>
             <CategoryIcon
-              name={record.category || 'dots-horizontal'}
+              name={getIcon(record.category)}
               color={theme.colors.onSurfaceVariant}
             />
           </Surface>

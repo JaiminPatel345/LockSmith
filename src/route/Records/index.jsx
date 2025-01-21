@@ -2,14 +2,20 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import {MD3Colors} from 'react-native-paper';
 import ActionButton from '../../components/ActionButton';
-import demoData from '../../utils/demoData';
-import SingleRecord from '../../components/SingleRecord';
-import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
+import SingleRecord from './SingleRecord';
+import ReactNativeBiometrics from 'react-native-biometrics';
+import getData from './getData';
 
 export default function Records({navigation}) {
   const rnBiometrics = new ReactNativeBiometrics();
   const [isIdentityConfirmed, setIsIdentityConfirmed] = useState(false);
+  const [allRecords, setAllRecords] = useState([]);
 
+  useEffect(() => {
+    getData().then(data => {
+      setAllRecords(data);
+    });
+  }, []);
 
   //Ask for biometrics
   useEffect(() => {
@@ -25,7 +31,7 @@ export default function Records({navigation}) {
           setIsIdentityConfirmed(true);
         } else {
           console.log('user cancelled biometric prompt');
-          navigation.navigate('Home')
+          navigation.navigate('Home');
         }
       })
       .catch(() => {
@@ -33,14 +39,14 @@ export default function Records({navigation}) {
       });
   }, []);
 
-    if (!isIdentityConfirmed) {
-      return null;
-    }
+  if (!isIdentityConfirmed) {
+    return null;
+  }
 
   return (
     <View className={`relative flex-1`}>
       <FlatList
-        data={demoData}
+        data={allRecords}
         renderItem={({item}) => <SingleRecord record={item} />}
       />
 
