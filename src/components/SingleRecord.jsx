@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
 import {
   Card,
   IconButton,
@@ -11,14 +11,16 @@ import {
 } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CategoryIcon = ({ name, size = 24, color }) => (
-    <MaterialCommunityIcons name={name} size={size} color={color} />
+const CategoryIcon = ({name, size = 24, color}) => (
+  <MaterialCommunityIcons name={name} size={size} color={color} />
 );
 
-const SingleRecord = ({ record }) => {
+const SingleRecord = ({record}) => {
   const [expanded, setExpanded] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
+
+
 
   // Derive colors from theme
   const styles = getStyles(theme);
@@ -32,74 +34,70 @@ const SingleRecord = ({ record }) => {
   };
 
   return (
-      <Card
-          style={styles.card}
-          onPress={() => setExpanded(!expanded)}
-          mode="outlined"
-      >
-        <Card.Content style={styles.cardContent}>
-          <View style={styles.headerContainer}>
-            <Surface style={styles.iconContainer} elevation={2}>
-              <CategoryIcon
-                  name={record.category || 'dots-horizontal'}
-                  color={theme.colors.onSurfaceVariant}
-              />
-            </Surface>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title} variant="titleMedium">
-                {record.title}
-              </Text>
-              {record.site && (
-                  <Text style={styles.site} variant="bodySmall">
-                    {record.site}
-                  </Text>
-              )}
-            </View>
-            <IconButton
-                icon={expanded ? 'chevron-up' : 'chevron-down'}
-                size={24}
-                onPress={() => setExpanded(!expanded)}
-                iconColor={theme.colors.onSurfaceVariant}
+    <Card
+      style={styles.card}
+      onPress={() => setExpanded(!expanded)}
+      mode="outlined">
+      <Card.Content style={styles.cardContent}>
+        <View style={styles.headerContainer}>
+          <Surface style={styles.iconContainer} elevation={2}>
+            <CategoryIcon
+              name={record.category || 'dots-horizontal'}
+              color={theme.colors.onSurfaceVariant}
             />
+          </Surface>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title} variant="titleMedium">
+              {record.title}
+            </Text>
+            {record.site && (
+              <Text style={styles.site} variant="bodySmall">
+                {record.site}
+              </Text>
+            )}
           </View>
+          <IconButton
+            icon={expanded ? 'chevron-up' : 'chevron-down'}
+            size={24}
+            onPress={() => setExpanded(!expanded)}
+            iconColor={theme.colors.onSurfaceVariant}
+          />
+        </View>
 
-          {expanded && (
-              <List.Section>
-                <List.Item
-                    title="Password"
-                    description={formatPassword(record.value)}
-                    titleStyle={styles.listItemTitle}
-                    descriptionStyle={styles.listItemDescription}
-                    right={() => (
-                        <Switch
-                            value={showPassword}
-                            onValueChange={setShowPassword}
-                        />
-                    )}
-                />
-                {record.note && (
-                    <List.Item
-                        title="Note"
-                        description={record.note}
-                        titleStyle={styles.listItemTitle}
-                        descriptionStyle={styles.listItemDescription}
-                        left={props => (
-                            <List.Icon
-                                {...props}
-                                icon="note-text"
-                                color={theme.colors.onSurfaceVariant}
-                            />
-                        )}
-                    />
+        {expanded && (
+          <List.Section>
+            <List.Item
+              title="Password"
+              description={formatPassword(record.value)}
+              titleStyle={styles.listItemTitle}
+              descriptionStyle={styles.listItemDescription}
+              right={() => (
+                <Switch value={showPassword} onValueChange={setShowPassword} />
+              )}
+            />
+            {record.note && (
+              <List.Item
+                title="Note"
+                description={record.note}
+                titleStyle={styles.listItemTitle}
+                descriptionStyle={styles.listItemDescription}
+                left={props => (
+                  <List.Icon
+                    {...props}
+                    icon="note-text"
+                    color={theme.colors.onSurfaceVariant}
+                  />
                 )}
-              </List.Section>
-          )}
-        </Card.Content>
-      </Card>
+              />
+            )}
+          </List.Section>
+        )}
+      </Card.Content>
+    </Card>
   );
 };
 
-const getStyles = (theme) => ({
+const getStyles = theme => ({
   card: {
     marginVertical: 4,
     marginHorizontal: 8,

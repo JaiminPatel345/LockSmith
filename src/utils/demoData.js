@@ -11,7 +11,6 @@ const records = [
     id: 2,
     title: 'Record 2',
     value: 'myPassword2',
-    note: 'this is a password of my gmail',
     site: 'xyz.com',
   },
   {
