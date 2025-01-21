@@ -24,7 +24,7 @@ const NewRecord = ({navigation}) => {
   const icons = [
     {title: 'Password', name: 'key'},
     {title: 'ID Number', name: 'card-account-details'},
-    {title: 'License', name: 'car'},
+    {title: 'School', name: 'school'},
     {title: 'Others', name: 'dots-horizontal'},
   ];
 

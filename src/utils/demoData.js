@@ -5,6 +5,7 @@ const records = [
     value: 'myPassword1',
     note: 'this is a password of my gmail',
     site: 'xyz.com',
+    category:'key'
   },
   {
     id: 2,

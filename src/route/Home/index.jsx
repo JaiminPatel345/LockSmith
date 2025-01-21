@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
-import {Button, MD3Colors} from 'react-native-paper';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {Button, MD3Colors, useTheme} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function Home({navigation}) {
+  const theme = useTheme();
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'col', gap: 24}}>
@@ -14,7 +14,8 @@ export default function Home({navigation}) {
           )}
           mode="contained-tonal"
           onPress={() => navigation.navigate('NewRecord')}
-          buttonColor={MD3Colors.primary40}>
+          buttonColor={MD3Colors.primary40}
+          textColor={theme.colors.onBackground}>
           New Record
         </Button>
         <Button
@@ -23,7 +24,8 @@ export default function Home({navigation}) {
           )}
           mode="contained-tonal"
           onPress={() => navigation.navigate('Records')}
-          buttonColor={MD3Colors.primary40}>
+          buttonColor={MD3Colors.primary40}
+          textColor={theme.colors.onBackground}>
           Show Records
         </Button>
       </View>
