@@ -76,17 +76,17 @@ const SingleRecord = ({record}) => {
           <List.Section>
             <List.Item
               title="Password"
-              description={formatPassword(record.value)}
+              description={formatPassword(record.key)}
               titleStyle={styles.listItemTitle}
               descriptionStyle={styles.listItemDescription}
               right={() => (
                 <Switch value={showPassword} onValueChange={setShowPassword} />
               )}
             />
-            {record.note && (
+            {record.notes && (
               <List.Item
                 title="Note"
-                description={record.note}
+                description={record.notes}
                 titleStyle={styles.listItemTitle}
                 descriptionStyle={styles.listItemDescription}
                 left={props => (

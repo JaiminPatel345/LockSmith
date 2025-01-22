@@ -18,8 +18,8 @@ const NewRecord = ({navigation}) => {
   const isDarkMode = colorScheme === 'dark';
 
   const [formData, setFormData] = useState({
+    title: '',
     key: '',
-    value: '',
     notes: '',
     category: 'Others',
   });
@@ -110,8 +110,8 @@ const NewRecord = ({navigation}) => {
           <View className={`flex gap-6`}>
             <TextInput
               label="Username / Id"
-              value={formData.key}
-              onChangeText={text => handleChange('key', text)}
+              value={formData.title}
+              onChangeText={text => handleChange('title', text)}
               mode="outlined"
               theme={{colors: {primary: colors.primary}}}
               textColor={colors.text}
@@ -123,8 +123,8 @@ const NewRecord = ({navigation}) => {
 
             <TextInput
               label="Value"
-              value={formData.value}
-              onChangeText={text => handleChange('value', text)}
+              value={formData.key}
+              onChangeText={text => handleChange('key', text)}
               mode="outlined"
               secureTextEntry={isPasswordShow}
               theme={{colors: {primary: colors.primary}}}

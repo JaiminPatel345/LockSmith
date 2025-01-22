@@ -1,17 +1,10 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 const getData = async () => {
   try {
-    console.log('Start to getting data');
-
-    const keys = await AsyncStorage.getAllKeys();
-    const values = await AsyncStorage.multiGet(keys);
-
-    // Convert the array of key-value pairs into an object
-    const parsedData = values.map(([_, value]) => JSON.parse(value));
-
-    console.log(parsedData);
-    return parsedData;
+    const dbData = await EncryptedStorage.getItem('LockSmith');
+    console.log(JSON.parse(dbData));
+    return JSON.parse(dbData);
   } catch (e) {
     console.log('Error', e);
   }

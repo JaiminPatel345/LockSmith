@@ -39,7 +39,7 @@ export default function Records({navigation}) {
       });
   }, []);
 
-  if (!isIdentityConfirmed) {
+  if (process.env.NODE_ENV !== 'development' && !isIdentityConfirmed) {
     return null;
   }
 
