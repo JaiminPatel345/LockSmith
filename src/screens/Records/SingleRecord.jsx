@@ -9,49 +9,55 @@ import {
   List,
   useTheme,
 } from 'react-native-paper';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import {deleteRecord} from '../../store/thunk';
+import {useDispatch} from 'react-redux';
 
 const CategoryIcon = ({name, size = 24, color}) => (
-  <MaterialCommunityIcons name={name} size={size} color={color} />
+  <Ionicons name={name} size={size} color={color} />
 );
 
 const SingleRecord = ({record}) => {
   const [expanded, setExpanded] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
+  const dispatch = useDispatch();
 
-  // Derive colors from theme
   const styles = getStyles(theme);
 
   const getIcon = myIcon => {
     const icons = [
-      {title: 'Password', name: 'key'},
-      {title: 'ID Number', name: 'card-account-details'},
-      {title: 'School', name: 'school'},
-      {title: 'Others', name: 'dots-horizontal'},
+      {title: 'Password', name: 'key-outline'},
+      {title: 'ID Number', name: 'card-outline'},
+      {title: 'School', name: 'school-outline'},
+      {title: 'Others', name: 'ellipsis-horizontal-outline'},
     ];
-    return icons.find(i => i.title === myIcon)?.name || 'dots-horizontal';
+    return (
+      icons.find(i => i.title === myIcon)?.name || 'ellipsis-horizontal-outline'
+    );
   };
 
-  // Function to mask/unmask password
   const formatPassword = value => {
-    if (!showPassword) {
-      return '•'.repeat(value?.length || 0);
-    }
-    return value;
+    return !showPassword ? '•'.repeat(value?.length || 0) : value;
+  };
+
+  const handleEdit = () => {};
+  const handleDelete = () => {
+    dispatch(deleteRecord(record.id));
   };
 
   return (
     <Card
       style={styles.card}
       onPress={() => setExpanded(!expanded)}
-      mode="outlined">
+      mode="elevated">
       <Card.Content style={styles.cardContent}>
         <View style={styles.headerContainer}>
           <Surface style={styles.iconContainer} elevation={2}>
             <CategoryIcon
               name={getIcon(record.category)}
-              color={theme.colors.onSurfaceVariant}
+              color={theme.colors.primary}
             />
           </Surface>
           <View style={styles.titleContainer}>
@@ -68,7 +74,7 @@ const SingleRecord = ({record}) => {
             icon={expanded ? 'chevron-up' : 'chevron-down'}
             size={24}
             onPress={() => setExpanded(!expanded)}
-            iconColor={theme.colors.onSurfaceVariant}
+            iconColor={theme.colors.primary}
           />
         </View>
 
@@ -80,7 +86,11 @@ const SingleRecord = ({record}) => {
               titleStyle={styles.listItemTitle}
               descriptionStyle={styles.listItemDescription}
               right={() => (
-                <Switch value={showPassword} onValueChange={setShowPassword} />
+                <Switch
+                  value={showPassword}
+                  onValueChange={setShowPassword}
+                  color={theme.colors.primary}
+                />
               )}
             />
             {record.notes && (
@@ -92,12 +102,36 @@ const SingleRecord = ({record}) => {
                 left={props => (
                   <List.Icon
                     {...props}
-                    icon="note-text"
-                    color={theme.colors.onSurfaceVariant}
+                    icon="note-text-outline"
+                    color={theme.colors.secondary}
                   />
                 )}
               />
             )}
+            <View style={styles.actionContainer}>
+              <IconButton
+                icon={() => (
+                  <Feather
+                    name={'edit-2'}
+                    color={theme.colors.primary}
+                    size={20}
+                  />
+                )}
+                onPress={handleEdit}
+                style={styles.actionButton}
+              />
+              <IconButton
+                icon={() => (
+                  <Feather
+                    name={'trash-2'}
+                    color={theme.colors.error}
+                    size={20}
+                  />
+                )}
+                onPress={handleDelete}
+                style={styles.actionButton}
+              />
+            </View>
           </List.Section>
         )}
       </Card.Content>
@@ -107,12 +141,13 @@ const SingleRecord = ({record}) => {
 
 const getStyles = theme => ({
   card: {
-    marginVertical: 4,
-    marginHorizontal: 8,
+    marginVertical: 6,
+    marginHorizontal: 10,
     backgroundColor: theme.colors.surface,
+    borderRadius: 12,
   },
   cardContent: {
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -120,9 +155,9 @@ const getStyles = theme => ({
     justifyContent: 'space-between',
   },
   iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: theme.colors.surfaceVariant,
@@ -132,7 +167,7 @@ const getStyles = theme => ({
     marginLeft: 12,
   },
   title: {
-    fontWeight: '600',
+    fontWeight: '700',
     color: theme.colors.onSurface,
   },
   site: {
@@ -140,9 +175,19 @@ const getStyles = theme => ({
   },
   listItemTitle: {
     color: theme.colors.onSurface,
+    fontWeight: '600',
   },
   listItemDescription: {
     color: theme.colors.onSurfaceVariant,
+  },
+  actionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingLeft: 8,
+  },
+  actionButton: {
+    marginRight: 8,
   },
 });
 

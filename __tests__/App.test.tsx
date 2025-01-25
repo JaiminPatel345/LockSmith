@@ -4,7 +4,7 @@
 
 import 'react-native';
 import React from 'react';
-import App from '../src/App.tsx';
+import App from '../src/App.jsx';
 
 // Note: import explicitly to use the types shipped with jest.
 import {it} from '@jest/globals';

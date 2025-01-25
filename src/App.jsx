@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../global.css';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import NewRecord from './route/NewRecord';
-import Records from './route/Records';
-import Home from './route/Home';
+import NewRecord from './screens/NewRecord';
+import Records from './screens/Records';
+import Home from './screens/Home';
 import {useTheme} from 'react-native-paper';
+import {useDispatch} from 'react-redux';
+import {initRecords} from './store/thunk';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const Theme = useTheme();
+  const dispatch = useDispatch();
+
+  //Init store
+  useEffect(() => {
+    dispatch(initRecords());
+  }, [dispatch]);
   return (
     <NavigationContainer theme={Theme}>
       <Stack.Navigator
@@ -20,8 +28,7 @@ export default function App() {
             backgroundColor: Theme.colors.primaryContainer, // Background
             // color of the header
           },
-          headerTintColor: Theme.colors.onBackground
-          , // Color of back button and title text
+          headerTintColor: Theme.colors.onBackground, // Color of back button and title text
           headerTitleStyle: {
             fontWeight: 'bold', // Customize font style of title
             fontSize: 20,

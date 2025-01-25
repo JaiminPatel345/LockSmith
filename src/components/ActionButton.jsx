@@ -12,7 +12,7 @@ const ActionButton = ({
   ...otherProps
 }) => {
   return (
-    <View className="absolute bottom-6 right-6 flex-row gap-2">
+    <View className="absolute bottom-6 right-6 z-50">
       <IconButton
         icon={iconName}
         mode={mode || 'contained'}

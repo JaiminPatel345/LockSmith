@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {Button, MD3Colors, useTheme} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useSelector} from 'react-redux';
 
 export default function Home({navigation}) {
+  // const records = useSelector(state => state.records);
+  // useEffect(() => {
+  //   console.log('records are : ', records);
+  // }, []);
+
   const theme = useTheme();
+
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'col', gap: 24}}>

@@ -1,21 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
-import {MD3Colors} from 'react-native-paper';
-import ActionButton from '../../components/ActionButton';
+import {ActivityIndicator, MD3Colors} from 'react-native-paper';
 import SingleRecord from './SingleRecord';
 import ReactNativeBiometrics from 'react-native-biometrics';
-import getData from './getData';
+import FloatingButton from '../../components/FloatingButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {initRecords} from '../../store/thunk';
 
 export default function Records({navigation}) {
   const rnBiometrics = new ReactNativeBiometrics();
   const [isIdentityConfirmed, setIsIdentityConfirmed] = useState(false);
-  const [allRecords, setAllRecords] = useState([]);
+  const [showAllButtons, setShowAllButtons] = useState(false);
 
-  useEffect(() => {
-    getData().then(data => {
-      setAllRecords(data);
-    });
-  }, []);
+  const {records} = useSelector(state => state.records);
 
   //Ask for biometrics
   useEffect(() => {
@@ -39,28 +36,29 @@ export default function Records({navigation}) {
       });
   }, []);
 
+  //if not give biometrics then return
   if (process.env.NODE_ENV !== 'development' && !isIdentityConfirmed) {
     return null;
+  }
+
+  if (!records || records.length === 0) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color={MD3Colors.primary40} />
+      </View>
+    );
   }
 
   return (
     <View className={`relative flex-1`}>
       <FlatList
-        data={allRecords}
+        data={records}
         renderItem={({item}) => <SingleRecord record={item} />}
+        keyExtractor={item => item.id}
       />
 
       {/*Bottom Icon*/}
-      <ActionButton
-        iconName={'plus'}
-        containerColor={MD3Colors.primary40}
-        mode="contained"
-        className="flex-1"
-        size={40}
-        onPress={() => navigation.navigate('NewRecord')}
-        accessibilityLabel={`Add new Record`}
-        style={{width: 60, height: 60, borderRadius: 15}}
-      />
+      <FloatingButton containerColor={MD3Colors.primary40} />
     </View>
   );
 }
