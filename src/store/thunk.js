@@ -7,11 +7,18 @@ import {
 import deleteDbRecord from '../utils/deleteDbRecord';
 import getData from '../utils/getData';
 import generateRandomId from '../utils/generateRandomId';
+import {useSelector} from 'react-redux';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Initialize Records
 export const initRecords = () => async dispatch => {
   try {
-    const data = await getData();
+    let data = await getData();
+    if (!data) {
+      data = [];
+      await EncryptedStorage.setItem('LockSmith', JSON.stringify(data));
+    }
+
     dispatch(setRecords(data));
   } catch (error) {
     console.error('Error initializing records:', error);
@@ -34,10 +41,24 @@ export const addRecord = record => async dispatch => {
 // Delete Record
 export const deleteRecord = recordId => async dispatch => {
   try {
-    await deleteDbRecord(recordId); // Assuming it accepts the `id` of the record
+    await deleteDbRecord(recordId);
     dispatch(deleteRecordInStore(recordId));
   } catch (error) {
-    console.error('Error deleting record:', error);
+    console.error('Error deleting record: ', error);
     //TODO: error notification
+  }
+};
+
+export const updateRecord = updatedRecord => async dispatch => {
+  try {
+    console.log(updatedRecord);
+    let dbData = await getData();
+    dbData = dbData.map(record =>
+      record.id === updatedRecord.id ? updatedRecord : record,
+    );
+    await EncryptedStorage.setItem('LockSmith', JSON.stringify(dbData));
+    dispatch(setRecords(dbData));
+  } catch (error) {
+    console.error('Error updating record:', error);
   }
 };

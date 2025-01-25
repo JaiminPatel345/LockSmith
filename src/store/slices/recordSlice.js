@@ -10,7 +10,6 @@ const recordSlice = createSlice({
   reducers: {
     setRecords: (state, action) => {
       state.records = action.payload;
-      console.log('setRecords', state.records);
     },
     addRecordInStore: (state, action) => {
       state.records.push(action.payload);

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import {ActivityIndicator, MD3Colors} from 'react-native-paper';
 import SingleRecord from './SingleRecord';
 import ReactNativeBiometrics from 'react-native-biometrics';
@@ -44,7 +44,7 @@ export default function Records({navigation}) {
   if (!records || records.length === 0) {
     return (
       <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color={MD3Colors.primary40} />
+        <Text className={'text-rose-500'}>No Records found</Text>
       </View>
     );
   }
