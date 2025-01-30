@@ -11,11 +11,13 @@ import ActionButton from '../../components/ActionButton';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {addRecord} from '../../store/thunk';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import Alert from '../../components/Alert';
 
 const NewRecord = ({navigation}) => {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
+  const alertMessage = useSelector(state => state.alert.message);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -48,14 +50,15 @@ const NewRecord = ({navigation}) => {
   const dispatch = useDispatch();
 
   const handleOnSave = () => {
-    dispatch(addRecord(formData)).then(() => {
-      navigation.navigate('Home');
+    dispatch(addRecord(formData)).then(isDone => {
+      if (isDone !== -1) navigation.navigate('Home');
     });
   };
 
   return (
     <>
       <ScrollView className=" w-screen p-4 relative ">
+        {alertMessage && alertMessage.length !== 0 && <Alert />}
         <View>
           {/* Header */}
           <View className="mb-6">

@@ -1,5 +1,7 @@
 import React, {memo, useState} from 'react';
 import {View} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
+
 import {
   Card,
   IconButton,
@@ -113,11 +115,18 @@ const SingleRecord = memo(({record}) => {
                   color: theme.colors.onSurfaceVariant,
                 }}
                 right={() => (
-                  <Switch
-                    value={showPassword}
-                    onValueChange={setShowPassword}
-                    color={theme.colors.primary}
-                  />
+                  <>
+                    <Switch
+                      value={showPassword}
+                      onValueChange={setShowPassword}
+                      color={theme.colors.primary}
+                    />
+                    <IconButton
+                      icon="content-copy"
+                      color={theme.colors.primary}
+                      onPress={() => Clipboard.setString(record.key)}
+                    />
+                  </>
                 )}
               />
 
