@@ -7,7 +7,6 @@ import {
 import deleteDbRecord from '../utils/deleteDbRecord';
 import getData from '../utils/getData';
 import generateRandomId from '../utils/generateRandomId';
-import {useSelector} from 'react-redux';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Initialize Records
