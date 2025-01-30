@@ -5,17 +5,19 @@ import SingleRecord from './SingleRecord';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import FloatingButton from '../../components/FloatingButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {initRecords} from '../../store/thunk';
+import {setAuthorizedUser} from '../../store/slices/recordSlice';
 
 export default function Records({navigation}) {
   const rnBiometrics = new ReactNativeBiometrics();
-  const [isIdentityConfirmed, setIsIdentityConfirmed] = useState(false);
-  const [showAllButtons, setShowAllButtons] = useState(false);
-
+  const isIdentityConfirmed = useSelector(
+    state => state.records.isIdentityConfirmed,
+  );
   const {records} = useSelector(state => state.records);
+  const dispatch = useDispatch();
 
   //Ask for biometrics
-  useEffect(() => {
+
+  const checkBiometrics = () => {
     rnBiometrics
       .simplePrompt({
         promptMessage: 'Confirm identity for view passwords ',
@@ -25,15 +27,22 @@ export default function Records({navigation}) {
 
         if (success) {
           console.log('successful biometrics provided');
-          setIsIdentityConfirmed(true);
+          dispatch(setAuthorizedUser());
         } else {
           console.log('user cancelled biometric prompt');
           navigation.navigate('Home');
         }
       })
-      .catch(() => {
+      .catch(error => {
         console.log('biometrics failed');
+        console.log(error);
       });
+  };
+
+  useEffect(() => {
+    if (!isIdentityConfirmed) {
+      checkBiometrics();
+    }
   }, []);
 
   //if not give biometrics then return

@@ -6,6 +6,7 @@ const recordSlice = createSlice({
   name: 'records',
   initialState: {
     records: [],
+    isIdentityConfirmed: false,
   },
   reducers: {
     setRecords: (state, action) => {
@@ -19,9 +20,16 @@ const recordSlice = createSlice({
         record => record.id !== action.payload,
       );
     },
+    setAuthorizedUser: state => {
+      state.isIdentityConfirmed = true;
+    },
   },
 });
 
-export const {setRecords, addRecordInStore, deleteRecordInStore} =
-  recordSlice.actions;
+export const {
+  setRecords,
+  addRecordInStore,
+  deleteRecordInStore,
+  setAuthorizedUser,
+} = recordSlice.actions;
 export default recordSlice.reducer;
