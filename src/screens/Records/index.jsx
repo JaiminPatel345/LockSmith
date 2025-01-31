@@ -6,6 +6,7 @@ import ReactNativeBiometrics from 'react-native-biometrics';
 import FloatingButton from '../../components/FloatingButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAuthorizedUser} from '../../store/slices/recordSlice';
+import Alert from '../../components/Alert';
 
 export default function Records({navigation}) {
   const rnBiometrics = new ReactNativeBiometrics();
@@ -39,6 +40,8 @@ export default function Records({navigation}) {
       });
   };
 
+  const alertTitle = useSelector(state => state.alert.title);
+
   useEffect(() => {
     if (!isIdentityConfirmed) {
       checkBiometrics();
@@ -60,6 +63,7 @@ export default function Records({navigation}) {
 
   return (
     <View className={`relative flex-1`}>
+      {alertTitle && alertTitle.length > 0 && <Alert />}
       <FlatList
         data={records}
         renderItem={({item}) => <SingleRecord record={item} />}

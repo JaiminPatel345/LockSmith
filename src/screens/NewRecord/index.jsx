@@ -17,7 +17,7 @@ import Alert from '../../components/Alert';
 const NewRecord = ({navigation}) => {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
-  const alertMessage = useSelector(state => state.alert.message);
+  const alertTitle = useSelector(state => state.alert.title);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -58,7 +58,7 @@ const NewRecord = ({navigation}) => {
   return (
     <>
       <ScrollView className=" w-screen p-4 relative ">
-        {alertMessage && alertMessage.length !== 0 && <Alert />}
+        {alertTitle && alertTitle.length > 0 && <Alert />}
         <View>
           {/* Header */}
           <View className="mb-6">

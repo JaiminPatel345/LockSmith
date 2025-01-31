@@ -92,7 +92,15 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+
+        release {
+            storeFile file('locksmith.keystore')
+            storePassword project.hasProperty('MY_KEYSTORE_PASSWORD') ? project.MY_KEYSTORE_PASSWORD : ""
+            keyAlias project.hasProperty('MY_KEY_ALIAS') ? project.MY_KEY_ALIAS : ""
+            keyPassword project.hasProperty('MY_KEY_ALIAS_PASSWORD') ? project.MY_KEY_ALIAS_PASSWORD : ""
+        }
     }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
